@@ -11,8 +11,45 @@ function main() {
 	var totalItem = 4;
 	var totalWeight = 5;
 
-	napsack(totalItem, totalWeight, val, wt);
-		
+	var M = napsack(totalItem, totalWeight, val, wt);
+	var buf = getCombo(M, wt, totalItem, totalWeight);
+	
+	printItemVal(val, wt, buf);	
+}
+
+
+function printItemVal(val, wt, buf) {
+	for(var i=0; i<buf.length; i++) {
+		var index = buf[i];
+		console.log('-----');
+		console.log(index);
+		console.log(val[index]);
+		console.log(wt[index]);	
+	}
+}
+
+
+// e.g. 4 item, 5 weight
+function getCombo(M, wt, totalItem, totalWeight) {
+	var row = totalItem;
+	var col = totalWeight;
+	var buf = [];
+
+	while(row > 0 && col > 0) {
+		// M vs 1 up
+		if( M[row][col] == M[row-1][col] ) {
+			row--;
+		} else {
+			buf.push(row);
+			// wt is the weight of item
+			// we are moving item
+			col = col - wt[row];
+			row--;
+		}
+
+	}	// end loop
+
+	return buf;
 }
 
 
@@ -53,7 +90,7 @@ function napsack(totalItem, totalWeight, val, wt) {
 
 	}
 
-	console.log(M);
+	return M;
 }
 
 
